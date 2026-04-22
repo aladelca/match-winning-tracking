@@ -1,0 +1,1 @@
+-- Seed intentionally empty for the initial local foundation.
