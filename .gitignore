@@ -1,16 +1,27 @@
-
 # Beads / Dolt files (added by bd init)
 .dolt/
 *.db
 .beads-credential-key
 
 # Local Python artifacts
-.env
-.venv/
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
 __pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment
+.env
+.env.local
+
+# Node / Next.js
+node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
 
 # Supabase local state
 supabase/.branches
