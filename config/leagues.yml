@@ -1,0 +1,13 @@
+leagues:
+  liga1_peru:
+    source: thesportsdb
+    source_league_id: 4688
+    league_name: Peruvian_Primera_Division
+    country: Peru
+    sport: Soccer
+    current_season: "2026"
+    expected_current_team_count: 18
+    backfill_start_date: "2020-01-01"
+    future_fixtures_days: 14
+    fixture_refresh_lookback_days: 7
+    season_start_year: 2020
