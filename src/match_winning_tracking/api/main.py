@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from match_winning_tracking.api.config import ApiSettings, load_settings
-from match_winning_tracking.api.routes import health
+from match_winning_tracking.api.routes import health, models, predict, sensitivity
 
 
 def create_app(settings: ApiSettings | None = None) -> FastAPI:
@@ -24,6 +24,9 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(health.router)
+    app.include_router(models.router)
+    app.include_router(predict.router)
+    app.include_router(sensitivity.router)
     return app
 
 
