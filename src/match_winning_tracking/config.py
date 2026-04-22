@@ -22,6 +22,7 @@ class LeagueConfig:
     country: str
     sport: str
     current_season: str
+    expected_current_team_count: int
     backfill_start_date: date
     future_fixtures_days: int
     fixture_refresh_lookback_days: int
@@ -81,6 +82,7 @@ def load_league_config(config_path: Path) -> LeagueConfig:
             country=str(payload["country"]),
             sport=str(payload["sport"]),
             current_season=str(payload["current_season"]),
+            expected_current_team_count=int(payload["expected_current_team_count"]),
             backfill_start_date=backfill_start_date,
             future_fixtures_days=int(
                 os.getenv("FUTURE_FIXTURES_DAYS", str(payload["future_fixtures_days"]))

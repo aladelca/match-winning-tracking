@@ -34,6 +34,29 @@ def test_map_fixture_marks_finished_and_sets_winner() -> None:
     assert record["kickoff_at"] == datetime(2026, 4, 19, 20, 0, tzinfo=UTC)
 
 
+def test_map_fixture_does_not_mark_live_match_as_finished() -> None:
+    record = map_fixture(
+        {
+            "idEvent": "2204392",
+            "idLeague": "4688",
+            "strSeason": "2026",
+            "dateEvent": "2026-04-19",
+            "strTimestamp": "2026-04-19T20:00:00+00:00",
+            "strStatus": "Live",
+            "idHomeTeam": "138311",
+            "idAwayTeam": "138449",
+            "strHomeTeam": "Alianza Lima",
+            "strAwayTeam": "Universitario",
+            "intHomeScore": "1",
+            "intAwayScore": "0",
+        },
+        source_league_id=4688,
+    )
+
+    assert record["is_finished"] is False
+    assert record["winner"] is None
+
+
 def test_fixture_aliases_are_deduped() -> None:
     records = dedupe_alias_records(
         extract_team_aliases_from_fixture(

@@ -4,6 +4,16 @@ import hashlib
 from datetime import UTC, date, datetime, time
 from typing import Any
 
+TERMINAL_MATCH_STATUSES = {
+    "aet",
+    "after extra time",
+    "after penalties",
+    "finished",
+    "ft",
+    "full time",
+    "match finished",
+}
+
 
 def map_league(payload: dict[str, Any]) -> dict[str, Any]:
     return {
@@ -70,6 +80,7 @@ def map_fixture(payload: dict[str, Any], *, source_league_id: int) -> dict[str, 
     status = stringify(payload.get("strStatus")) or "Unknown"
     event_date = parse_date(payload.get("dateEvent"))
     kickoff_at = parse_match_datetime(payload)
+    is_finished = is_finished_status(status)
 
     return {
         "source": "thesportsdb",
@@ -91,9 +102,9 @@ def map_fixture(payload: dict[str, Any], *, source_league_id: int) -> dict[str, 
         "away_penalties": parse_int(payload.get("intAwayPenaltyScore")),
         "venue": payload.get("strVenue"),
         "country": payload.get("strCountry"),
-        "is_finished": is_finished_status(status, home_score=home_score, away_score=away_score),
+        "is_finished": is_finished,
         "is_postponed": is_postponed_status(status),
-        "winner": result_label(home_score, away_score),
+        "winner": result_label(home_score, away_score) if is_finished else None,
         "video_url": payload.get("strVideo"),
         "thumb_url": payload.get("strThumb"),
         "banner_url": payload.get("strBanner"),
@@ -227,25 +238,8 @@ def result_label(home_score: int | None, away_score: int | None) -> str | None:
     return "D"
 
 
-def is_finished_status(
-    status: str,
-    *,
-    home_score: int | None,
-    away_score: int | None,
-) -> bool:
-    normalized = status.casefold()
-    if normalized in {"match finished", "ft", "after penalties", "aet"}:
-        return True
-    return (
-        home_score is not None
-        and away_score is not None
-        and normalized
-        not in {
-            "not started",
-            "postponed",
-            "cancelled",
-        }
-    )
+def is_finished_status(status: str) -> bool:
+    return status.casefold() in TERMINAL_MATCH_STATUSES
 
 
 def is_postponed_status(status: str) -> bool:

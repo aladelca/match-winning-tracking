@@ -142,6 +142,7 @@ def build_settings() -> Settings:
             country="Peru",
             sport="Soccer",
             current_season="2026",
+            expected_current_team_count=18,
             backfill_start_date=date(2020, 1, 1),
             future_fixtures_days=14,
             fixture_refresh_lookback_days=7,

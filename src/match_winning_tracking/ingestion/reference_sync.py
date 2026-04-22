@@ -15,6 +15,10 @@ from match_winning_tracking.domain.mappers import (
 from match_winning_tracking.storage.postgres import PostgresStore
 
 
+class IncompleteTeamListError(ValueError):
+    """Raised when the free-tier teams endpoint returns a truncated league snapshot."""
+
+
 def sync_reference(
     store: PostgresStore,
     client: TheSportsDBClient,
@@ -34,6 +38,7 @@ def sync_reference(
 
         league_payload = first_or_raise(league_response.items("leagues"), "leagues")
         team_payloads = teams_response.items("teams")
+        validate_team_payloads(team_payloads, settings)
 
         league_record = map_league(league_payload)
         season_records = build_league_seasons(settings, today=today)
@@ -90,3 +95,18 @@ def first_or_raise(items: Sequence[dict[str, Any]], key: str) -> dict[str, Any]:
     if not items:
         raise ValueError(f"TheSportsDB returned no items for '{key}'")
     return items[0]
+
+
+def validate_team_payloads(team_payloads: Sequence[dict[str, Any]], settings: Settings) -> None:
+    unique_team_ids = {
+        int(team_id) for payload in team_payloads if (team_id := payload.get("idTeam")) is not None
+    }
+    observed_count = len(unique_team_ids)
+    expected_count = settings.league.expected_current_team_count
+
+    if observed_count < expected_count:
+        raise IncompleteTeamListError(
+            "Incomplete team list returned by search_all_teams.php for "
+            f"league {settings.league.source_league_id}: got {observed_count} unique teams, "
+            f"expected at least {expected_count}. Refusing to persist partial reference data."
+        )
