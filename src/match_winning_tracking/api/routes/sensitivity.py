@@ -32,13 +32,13 @@ def _validate_overrides(
     for key, value in overrides.items():
         if key not in schema_keys:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail=f"unknown feature: {key}",
             )
         lo, hi = schema_keys[key]
         if value < lo or value > hi:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail=f"feature {key}={value} out of range [{lo}, {hi}]",
             )
 
