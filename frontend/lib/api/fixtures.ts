@@ -19,6 +19,24 @@ async function listTeamsByIds(
   return (data as Team[]) ?? [];
 }
 
+export async function listTeams(
+  supabase: SupabaseClient,
+  limit?: number,
+): Promise<Team[]> {
+  let query = supabase
+    .from("teams")
+    .select(TEAM_COLUMNS)
+    .order("name", { ascending: true });
+
+  if (typeof limit === "number") {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data as Team[]) ?? [];
+}
+
 function hydrateFixtures(
   fixtures: Fixture[],
   teams: Team[],

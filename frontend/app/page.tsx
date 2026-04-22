@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { FixtureCard } from "@/components/fixture-card";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { listUpcomingFixtures } from "@/lib/api/fixtures";
@@ -54,11 +52,8 @@ export default async function Home() {
           <p>
             Levanta Supabase local con <code>supabase start</code> y corre{" "}
             <code>supabase db reset</code> para aplicar las migraciones y el
-            seed de demo. Documentación completa en{" "}
-            <Link href="/" className="underline">
-              el README
-            </Link>
-            .
+            seed de demo. La guía completa de arranque está en el{" "}
+            <code>README.md</code> del repositorio.
           </p>
         </div>
       </section>

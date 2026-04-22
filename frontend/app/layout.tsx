@@ -17,6 +17,7 @@ type NavItem = {
 
 const NAV: NavItem[] = [
   { href: "/" as Route, label: "Partidos" },
+  { href: "/teams" as Route, label: "Equipos" },
 ];
 
 export default function RootLayout({
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body className="min-h-screen">
         <header className="border-b bg-card">
           <div className="container flex items-center justify-between py-4">
-            <Link href={"/" as Route} className="flex items-center gap-2 font-semibold">
+            <Link
+              href={"/" as Route}
+              className="flex items-center gap-2 font-semibold"
+            >
               <Activity className="h-5 w-5" />
               <span>Liga 1 Predictions</span>
             </Link>
