@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "match_winning_tracking",
+  "project_id": "297ca371-d2a9-44bd-80e9-1fa0fc9fdbf8"
+}
