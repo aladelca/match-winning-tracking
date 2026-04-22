@@ -51,9 +51,10 @@ export default async function Home() {
           </p>
           <p>
             Levanta Supabase local con <code>supabase start</code> y corre{" "}
-            <code>supabase db reset</code> para aplicar las migraciones y el
-            seed de demo. La guía completa de arranque está en el{" "}
-            <code>README.md</code> del repositorio.
+            <code>supabase db reset</code>. Luego ejecuta la ingesta base del
+            repositorio para poblar <code>public.fixtures</code> y{" "}
+            <code>analytics.training_matches_base</code>. La guía completa está
+            en el <code>README.md</code> del repositorio.
           </p>
         </div>
       </section>

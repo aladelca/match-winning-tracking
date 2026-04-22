@@ -5,6 +5,8 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
+from match_winning_tracking.config import DEFAULT_SUPABASE_DB_URL, load_local_env
+
 
 @dataclass(frozen=True)
 class ApiSettings:
@@ -16,6 +18,7 @@ class ApiSettings:
 
 
 def load_settings() -> ApiSettings:
+    load_local_env()
     raw_origins = os.getenv("API_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000")
     origins = tuple(origin.strip() for origin in raw_origins.split(",") if origin.strip())
     return ApiSettings(
@@ -23,5 +26,5 @@ def load_settings() -> ApiSettings:
         port=int(os.getenv("API_PORT", "8000")),
         cors_origins=origins,
         model_version=os.getenv("MOCK_MODEL_VERSION", "mock-v0"),
-        supabase_db_url=os.getenv("SUPABASE_DB_URL") or None,
+        supabase_db_url=os.getenv("SUPABASE_DB_URL", DEFAULT_SUPABASE_DB_URL) or None,
     )

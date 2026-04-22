@@ -32,7 +32,8 @@ export default async function SensitivityPage({ params }: PageProps) {
 
       <header className="space-y-1">
         <div className="text-xs text-muted-foreground">
-          {fixture.round ?? fixture.season} · {formatKickoff(fixture.kickoff_at)}
+          {fixture.round ?? fixture.season ?? "Sin ronda"} ·{" "}
+          {formatKickoff(fixture.kickoff_at, fixture.event_date)}
         </div>
         <h1 className="text-3xl font-semibold tracking-tight">
           Sensibilidad: {fixture.home_team.name} vs {fixture.away_team.name}

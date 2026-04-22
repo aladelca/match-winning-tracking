@@ -42,6 +42,9 @@ export type SensitivityResponse = {
 
 export type Team = {
   id: string;
+  source: string;
+  source_team_id: number;
+  source_league_id: number;
   name: string;
   short_name: string | null;
   logo_url: string | null;
@@ -49,15 +52,23 @@ export type Team = {
 
 export type Fixture = {
   id: string;
-  season: string;
+  source: string;
+  source_event_id: number;
+  source_league_id: number;
+  season: string | null;
   round: string | null;
+  event_date: string | null;
+  kickoff_at: string | null;
   home_team_id: string;
   away_team_id: string;
-  kickoff_at: string;
+  home_team_name: string | null;
+  away_team_name: string | null;
   home_score: number | null;
   away_score: number | null;
   status: string;
   venue: string | null;
+  is_finished: boolean;
+  is_postponed: boolean;
 };
 
 export type FixtureWithTeams = Fixture & {

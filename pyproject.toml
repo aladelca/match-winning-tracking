@@ -5,17 +5,20 @@ build-backend = "hatchling.build"
 [project]
 name = "match-winning-tracking"
 version = "0.1.0"
-description = "Liga 1 Peru predictions mock API and frontend"
+description = "Liga 1 Peru local data foundation with mock predictions API and frontend"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115.0,<1.0.0",
-  "uvicorn[standard]>=0.32.0,<1.0.0",
+  "httpx>=0.28.0,<1.0.0",
   "psycopg[binary]>=3.2.6,<4.0.0",
   "pydantic>=2.9.0,<3.0.0",
+  "PyYAML>=6.0.2,<7.0.0",
+  "uvicorn[standard]>=0.32.0,<1.0.0",
 ]
 
 [project.scripts]
+match-winning-tracking = "match_winning_tracking.cli:main"
 match-winning-tracking-api = "match_winning_tracking.api.main:run"
 
 [tool.hatch.build.targets.wheel]
@@ -23,7 +26,6 @@ packages = ["src/match_winning_tracking"]
 
 [dependency-groups]
 dev = [
-  "httpx>=0.28.0,<1.0.0",
   "mypy>=1.15.0,<2.0.0",
   "pytest>=8.3.5,<9.0.0",
   "ruff>=0.11.8,<1.0.0",
@@ -47,6 +49,13 @@ warn_redundant_casts = true
 warn_return_any = true
 warn_unused_ignores = true
 
+[[tool.mypy.overrides]]
+module = ["yaml"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 addopts = "-ra"
 pythonpath = ["src"]
+markers = [
+  "integration: requires a reachable local Supabase/Postgres instance",
+]

@@ -17,13 +17,14 @@ npm run dev
 - `npm run dev` — servidor de desarrollo en `http://localhost:3000`
 - `npm run build` — build de producción
 - `npm run start` — sirve el build
-- `npm run lint` — ESLint con `next/core-web-vitals`
+- `npm run lint` — ESLint CLI
 - `npm run typecheck` — `tsc --noEmit`
 
 ## Dependencias externas
 
 - API de predicciones en `NEXT_PUBLIC_PREDICTIONS_API_URL` (por defecto `http://127.0.0.1:8000`).
-- Supabase local en `NEXT_PUBLIC_SUPABASE_URL` (por defecto `http://127.0.0.1:54321`).
+- Supabase local en `NEXT_PUBLIC_SUPABASE_URL` (por defecto `http://127.0.0.1:55421`).
+- La app asume que ya corriste la ingesta base del repo; si no hay fixtures en Supabase, el dashboard renderiza estado vacio.
 
 ## Estructura
 

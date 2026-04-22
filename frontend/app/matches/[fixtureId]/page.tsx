@@ -51,7 +51,7 @@ export default async function MatchDetail({ params }: PageProps) {
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
           {fixture.round && <span>{fixture.round}</span>}
           <span>·</span>
-          <span>Temporada {fixture.season}</span>
+          <span>Temporada {fixture.season ?? "s/d"}</span>
           <Badge variant="outline">{fixture.status}</Badge>
         </div>
         <h1 className="text-3xl font-semibold tracking-tight">
@@ -72,7 +72,7 @@ export default async function MatchDetail({ params }: PageProps) {
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <Calendar className="h-4 w-4" />
-            {formatKickoff(fixture.kickoff_at)}
+            {formatKickoff(fixture.kickoff_at, fixture.event_date)}
           </span>
           {fixture.venue && (
             <span className="flex items-center gap-1.5">

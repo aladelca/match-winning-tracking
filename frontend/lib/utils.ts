@@ -5,11 +5,33 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatKickoff(iso: string): string {
-  const date = new Date(iso);
+export function resolveFixtureDate(
+  kickoffIso: string | null,
+  eventDate: string | null = null,
+): Date | null {
+  if (kickoffIso) {
+    return new Date(kickoffIso);
+  }
+
+  if (eventDate) {
+    return new Date(`${eventDate}T12:00:00.000Z`);
+  }
+
+  return null;
+}
+
+export function formatKickoff(
+  kickoffIso: string | null,
+  eventDate: string | null = null,
+): string {
+  const date = resolveFixtureDate(kickoffIso, eventDate);
+  if (!date) {
+    return "Fecha por confirmar";
+  }
+
   return new Intl.DateTimeFormat("es-PE", {
     dateStyle: "medium",
-    timeStyle: "short",
+    ...(kickoffIso ? { timeStyle: "short" as const } : {}),
     timeZone: "America/Lima",
   }).format(date);
 }

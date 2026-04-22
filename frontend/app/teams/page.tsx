@@ -36,14 +36,15 @@ export default async function TeamsPage() {
         <h1 className="text-3xl font-semibold tracking-tight">Equipos</h1>
         <p className="max-w-2xl text-sm text-muted-foreground">
           Navega por los equipos cargados en Supabase local para revisar su
-          actividad reciente y los siguientes partidos del seed de demo.
+          actividad reciente y los siguientes partidos sincronizados por la
+          ingesta local.
         </p>
       </header>
 
       {teams.length === 0 ? (
         <div className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-          No hay equipos cargados todavia. Ejecuta <code>supabase db reset</code>{" "}
-          para aplicar el seed local.
+          No hay equipos cargados todavia. Corre la ingesta base para poblar{" "}
+          <code>public.teams</code>.
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

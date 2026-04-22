@@ -33,8 +33,8 @@ export function FixtureCard({ fixture, probabilities, error }: FixtureCardProps)
     <Card className="transition-shadow hover:shadow-md">
       <CardHeader className="space-y-2">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>{fixture.round ?? fixture.season}</span>
-          <span>{formatKickoff(fixture.kickoff_at)}</span>
+          <span>{fixture.round ?? fixture.season ?? "Sin ronda"}</span>
+          <span>{formatKickoff(fixture.kickoff_at, fixture.event_date)}</span>
         </div>
         <CardTitle className="text-base">
           <Link href={href} className="hover:underline">

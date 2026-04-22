@@ -13,7 +13,7 @@ import {
 import { getTeam, listFixturesForTeam } from "@/lib/api/fixtures";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { FixtureWithTeams } from "@/lib/types";
-import { formatKickoff } from "@/lib/utils";
+import { formatKickoff, resolveFixtureDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -22,11 +22,12 @@ type PageProps = {
 };
 
 function fixtureAlreadyPlayed(fixture: FixtureWithTeams): boolean {
-  if (fixture.home_score !== null || fixture.away_score !== null) {
+  if (fixture.is_finished || fixture.home_score !== null || fixture.away_score !== null) {
     return true;
   }
 
-  return new Date(fixture.kickoff_at).getTime() < Date.now();
+  const scheduledAt = resolveFixtureDate(fixture.kickoff_at, fixture.event_date);
+  return scheduledAt ? scheduledAt.getTime() < Date.now() : false;
 }
 
 function formatScore(fixture: FixtureWithTeams): string {
@@ -74,7 +75,7 @@ function FixtureList({
                 <div className="flex items-center gap-2">
                   <Badge variant="outline">{side}</Badge>
                   <span className="text-xs text-muted-foreground">
-                    {fixture.round ?? fixture.season}
+                    {fixture.round ?? fixture.season ?? "Sin ronda"}
                   </span>
                 </div>
                 <Link
@@ -84,7 +85,7 @@ function FixtureList({
                   vs {opponent.name}
                 </Link>
                 <div className="text-xs text-muted-foreground">
-                  {formatKickoff(fixture.kickoff_at)}
+                  {formatKickoff(fixture.kickoff_at, fixture.event_date)}
                 </div>
               </div>
               <div className="text-right">
@@ -182,7 +183,7 @@ export default async function TeamPage({ params }: PageProps) {
             <FixtureList
               fixtures={recentFixtures}
               teamId={team.id}
-              emptyMessage="Aun no hay partidos previos para este equipo en el seed local."
+              emptyMessage="Aun no hay partidos previos para este equipo en los datos locales."
             />
           </CardContent>
         </Card>
